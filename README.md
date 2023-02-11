@@ -1,5 +1,5 @@
 # Spotify Info
-A library to receive information about Spotify songs.
+A library to receive information about Spotify songs and playlists without a token.
 
 ## Validate url's
 To validate a Spotify url, you can use different functions, depending on the type of url you would like to validate. The available functions are:
@@ -26,9 +26,17 @@ console.log(spotifyInfo.validatePlaylistURL('https://open.spotify.com/playlist/5
 ```
 
 ## Get song information
-To get a song it's information, you can scrape the Spotify page by using the `scrapeSong` function.
+To get a song it's information, you can scrape the Spotify page by using the `scrapeSong` function. The function has one argument which is the url of the song.
 ```js
 const spotifyInfo = require('spotify-info');
 
 spotifyInfo.scrapeSong('https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT').then(song => console.log(song.name)).catch(console.log);
+```
+
+## Get playlist information
+To get a playlist it's information, you can scrape the Spotify page by using the `scrapePlaylist` function. The function has one argument which is the url of the playlist.
+```js
+const spotifyInfo = require('spotify-info');
+
+spotifyInfo.scrapePlaylist('https://open.spotify.com/playlist/5pI2mpzVD945Ni9aEB1veE').then(song => console.log(song.name)).catch(console.log);
 ```
