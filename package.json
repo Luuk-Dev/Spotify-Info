@@ -1,0 +1,19 @@
+{
+  "name": "spotify-info",
+  "version": "1.0.1",
+  "description": "A library to receive information about Spotify songs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["spotify", "song", "scrape", "information", "info"],
+  "author": "Luuk",
+  "license": "MIT",
+  "readme": "README.md",
+  "publisher": "Luuk",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/Luuk-Dev/spotify-info"
+  },
+  "homepage": "https://github.com/Luuk-Dev/spotify-info#readme"
+}
