@@ -24,7 +24,7 @@ function validateSongURL(url){
 
     const parsed = validateURL(url);
 
-    if(!parsed.pathname.startsWith("/track/")) return false;
+    if(!parsed.pathname.startsWith("/track/") && !parsed.pathname.startsWith("/embed/track/")) return false;
 
     const songId = parsed.pathname.split('/track/')[1].split('/')[0];
 
@@ -39,7 +39,7 @@ function validateArtistURL(url){
     
     const parsed = validateURL(url);
 
-    if(!parsed.pathname.startsWith("/artist/")) return false;
+    if(!parsed.pathname.startsWith("/artist/") && !parsed.pathname.startsWith("/embed/artist/")) return false;
 
     const artistId = parsed.pathname.split('/artist/')[1].split('/')[0];
 
@@ -54,7 +54,7 @@ function validateAlbumURL(url){
     
     const parsed = validateURL(url);
 
-    if(!parsed.pathname.startsWith("/album/")) return false;
+    if(!parsed.pathname.startsWith("/album/") && !parsed.pathname.startsWith("/embed/album/")) return false;
 
     const albumId = parsed.pathname.split('/album/')[1].split('/')[0];
 
@@ -69,7 +69,7 @@ function validatePlaylistURL(url){
     
     const parsed = validateURL(url);
 
-    if(!parsed.pathname.startsWith("/playlist/")) return false;
+    if(!parsed.pathname.startsWith("/playlist/") && !parsed.pathname.startsWith("/embed/playlist/")) return false;
 
     const playlistId = parsed.pathname.split('/playlist/')[1].split('/')[0];
 
