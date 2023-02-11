@@ -23,7 +23,6 @@ function scrapeSong(url){
             while(parsedURL.pathname !== parsedNextUrl.pathname){
                 try{
                     prevUrl = json.url;
-                    console.log(json.url, url)
                     parsedURL = new URL(json.url);
                     let reqData = await request(parsedURL, {method: 'GET'});
                     let newData = reqData.split('<script type="application/ld+json">')[1];
@@ -36,7 +35,6 @@ function scrapeSong(url){
                     return reject(err);
                 }
             }
-            console.log(json);
             resolve(new ScrapedSong(json));
         }).catch(reject);
     });
