@@ -5,7 +5,32 @@ export interface ScrapedSong{
     publishDate: string;
     locations: [string];
     url: string;
+    embedUrl: string;
 }
+
+export interface ScrapedPlaylistSong{
+    name: string;
+    artist: string;
+    duration: number;
+    durationString: string;
+}
+
+export interface ScrapedPlaylist{
+    name: string;
+    creator: string;
+    url: string;
+    embedUrl: string;
+    id: string;
+    songs: [ScrapedPlaylistSong]
+}
+
+/**
+ * Get information about a playlist by scraping the page
+ * @param playlistUrl The url of the playlist you want to get the information of
+ * @example
+ * spotifyInfo.scrapePlaylist('https://open.spotify.com/playlist/5pI2mpzVD945Ni9aEB1veE').then(playlist => console.log(playlist.name)).catch(console.log);
+ */
+export function scrapePlaylist(playlistUrl: string) : Promise<ScrapedPlaylist>;
 
 /**
  * Get information about a song by scraping the page
