@@ -91,4 +91,3 @@ The `ScrapedPlaylistSong` class is used for songs in the `ScrapedPlaylist` class
 | artist         | The name of the artist of the song on Spotify.                                                |
 | duration       | The duration of the song in miliseconds.                                                      |
 | durationString | The duration of the song as a string.                                                         |
-| songs          | An array of the songs in the album, the songs make use of the `ScrapedPlaylistSong` class.    |
