@@ -1,6 +1,8 @@
 export interface ScrapedSong{
     title: string;
     artist: string;
+    artistUrl: string;
+    artistId: string;
     description: string;
     publishDate: string;
     locations: [string];
@@ -23,6 +25,23 @@ export interface ScrapedPlaylist{
     id: string;
     songs: [ScrapedPlaylistSong]
 }
+
+export interface ScrapedAlbum{
+    id: string;
+    name: string;
+    artist: string;
+    url: string;
+    embedUrl: string;
+    songs: [ScrapedPlaylistSong];
+}
+
+/**
+ * Get information about an album by scraping the page
+ * @param songUrl The url of the album you want to get the information of
+ * @example
+ * spotifyInfo.scrapeAlbum('https://open.spotify.com/album/5Z9iiGl2FcIfa3BMiv6OIw').then(album => console.log(album.name)).catch(console.log);
+ */
+export function scrapeAlbum(albumUrl: string) : Promise<ScrapedAlbum>;
 
 /**
  * Get information about a playlist by scraping the page
