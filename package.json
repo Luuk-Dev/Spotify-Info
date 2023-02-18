@@ -1,6 +1,6 @@
 {
   "name": "spotify-info",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "A library to receive information about Spotify songs and playlists without a token.",
   "main": "index.js",
   "scripts": {
