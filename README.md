@@ -32,6 +32,20 @@ const spotifyInfo = require('spotify-info');
 
 spotifyInfo.scrapeSong('https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT').then(song => console.log(song.name)).catch(console.log);
 ```
+The `scrapeSong` function returns a `Promise`, once this is fullfilled, it will return the `ScrapedSong` class. The `ScrapedSong` class has the following properties:
+
+| Property       | Description                                                                                   |
+|----------------|-----------------------------------------------------------------------------------------------|
+| name           | The name of the song.                                                                         |
+| id             | The id of the song on Spotify.                                                                |
+| artist         | The artist of the song.                                                                       |
+| artistUrl      | The url of the artist of the song on Spotify.                                                 |
+| artistId       | The id of the artist of the song on Spotify.                                                  |
+| description    | The description of the song on Spotify.                                                       |
+| publishDate    | The date when the song got published on Spotify.                                              |
+| locations      | An array of country codes of the countries where the song can be played on Spotify.           |
+| url            | The url of the song on Spotify.                                                               |
+| embedUrl       | The embed url of the song on Spotify.                                                         |
 
 ## Get playlist information
 To get a playlist it's information, you can scrape the Spotify page by using the `scrapePlaylist` function. The function has one argument which is the url of the playlist.
@@ -40,3 +54,41 @@ const spotifyInfo = require('spotify-info');
 
 spotifyInfo.scrapePlaylist('https://open.spotify.com/playlist/5pI2mpzVD945Ni9aEB1veE').then(song => console.log(song.name)).catch(console.log);
 ```
+The `scrapePlaylist` function returns a `Promise`, once this is fullfilled, it will return the `ScrapedPlaylist` class. The `ScrapedPlaylist` class has the following properties:
+
+| Property       | Description                                                                                   |
+|----------------|-----------------------------------------------------------------------------------------------|
+| name           | The name of the playlist.                                                                     |
+| id             | The id of the playlist on Spotify.                                                            |
+| creator        | The username of the creator of the playlist.                                                  |
+| url            | The url of the playlist on Spotify.                                                           |
+| embedUrl       | The embed url of the playlist on Spotify.                                                     |
+| songs          | An array of the songs in the playlist, the songs make use of the `ScrapedPlaylistSong` class. |
+
+## Get album information
+To get an album it's information, you can scrape the Spotify page by using the `scrapeAlbum` function. The function has one argument which is the url of the album.
+```js
+const spotifyInfo = require('spotify-info');
+
+spotifyInfo.scrapeAlbum('https://open.spotify.com/album/5Z9iiGl2FcIfa3BMiv6OIw').then(song => console.log(song.name)).catch(console.log);
+```
+The `scrapeAlbum` function returns a `Promise`, once this is fullfilled, it will return the `scrapeAlbum` class. The `scrapeAlbum` class has the following properties:
+
+| Property       | Description                                                                                   |
+|----------------|-----------------------------------------------------------------------------------------------|
+| name           | The name of the album.                                                                        |
+| id             | The id of the album on Spotify.                                                               |
+| url            | The url of the album on Spotify.                                                              |
+| embedUrl       | The embed url of the album on Spotify.                                                        |
+| songs          | An array of the songs in the album, the songs make use of the `ScrapedPlaylistSong` class.    |
+
+### The ScrapedPlaylistSong class
+The `ScrapedPlaylistSong` class is used for songs in the `ScrapedPlaylist` class and for songs in the `ScrapedAlbum` class. The properties of the `ScrapedPlaylistSong` class are:
+
+| Property       | Description                                                                                   |
+|----------------|-----------------------------------------------------------------------------------------------|
+| name           | The name of the song.                                                                         |
+| artist         | The name of the artist of the song on Spotify.                                                |
+| duration       | The duration of the song in miliseconds.                                                      |
+| durationString | The duration of the song as a string.                                                         |
+| songs          | An array of the songs in the album, the songs make use of the `ScrapedPlaylistSong` class.    |
