@@ -69,13 +69,31 @@ function scrapePlaylist(url){
 
         request(embedParsedURL, {
             method: 'GET'
-        }).then(res => {
+        }).then(async res => {
             let obj = {};
 
             obj['playlistName'] = res.split('<span>')[3].split("</span>")[0];
             obj['playlistCreator'] = res.split('<span>')[4].split("</span>")[0];
             obj['playlistId'] = playlistId;
             obj['songs'] = playlistExtractor(res);
+
+            try{
+                let parsedMainUrl = new URL("https://open.spotify.com/playlist/"+playlistId);
+                let mainPageRequest = await request(parsedMainUrl);
+                obj['playlistCreatorId'] = mainPageRequest.split("/user/")[1];
+                obj['playlistCreatorId'] = obj['playlistCreatorId'] ? obj['playlistCreatorId'].split("\"")[0].split("?")[0] : null;
+                obj['thumbnail'] = mainPageRequest.split("<meta property=\"og:image\"")[1];
+                obj['thumbnail'] = obj['thumbnail'] ? obj['thumbnail'].split("content=\"")[1] : null;
+                obj['thumbnail'] = obj['thumbnail'] ? obj['thumbnail'].split("\"")[0].split("?")[0] : null;
+
+                let pageData = mainPageRequest.split("<script type=\"application/ld+json\">")[1];
+                if(pageData){
+                    pageData = pageData.split("</script>")[0];
+                    pageData = JSON.parse(pageData);
+                    obj['description'] = pageData['description'] || null;
+                    obj['locations'] = pageData.potentialAction.expectsAcceptanceOf.eligibleRegion.map(t => t.name) || null;
+                }
+            } catch {}
 
             resolve(new ScrapedPlaylist(obj));
         }).catch(reject);
@@ -93,13 +111,32 @@ function scrapeAlbum(url){
 
         request(embedParsedURL, {
             method: 'GET'
-        }).then(res => {
+        }).then(async res => {
             let obj = {};
 
             obj['albumName'] = res.split('<h1')[1].split('<a')[1].split('</a>')[0].split('>').slice(1).join('>');
             obj['albumId'] = albumId;
             obj['artist'] = res.split('<h2')[1].split("<a")[1].split('</a>')[0].split('>').slice(1).join('>');
             obj['songs'] = playlistExtractor(res);
+
+            try{
+                let parsedMainUrl = new URL("https://open.spotify.com/album/"+albumId);
+                let mainPageRequest = await request(parsedMainUrl);
+                obj['artistId'] = mainPageRequest.split("/artist/")[1];
+                obj['artistId'] = obj['artistId'] ? obj['artistId'].split("\"")[0].split("?")[0] : null;
+                obj['thumbnail'] = mainPageRequest.split("<meta property=\"og:image\"")[1];
+                obj['thumbnail'] = obj['thumbnail'] ? obj['thumbnail'].split("content=\"")[1] : null;
+                obj['thumbnail'] = obj['thumbnail'] ? obj['thumbnail'].split("\"")[0].split("?")[0] : null;
+                
+                let pageData = mainPageRequest.split("<script type=\"application/ld+json\">")[1];
+                if(pageData){
+                    pageData = pageData.split("</script>")[0];
+                    pageData = JSON.parse(pageData);
+                    obj['publishDate'] = pageData['datePublished'] || null;
+                    obj['description'] = pageData['description'] || null;
+                    obj['locations'] = pageData.potentialAction.expectsAcceptanceOf.eligibleRegion.map(t => t.name) || null;
+                }
+            } catch {}
 
             resolve(new Album(obj));
         }).catch(reject);
