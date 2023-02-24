@@ -18,11 +18,16 @@ export interface ScrapedPlaylistSong{
 }
 
 export interface ScrapedPlaylist{
+    id: string;
     name: string;
     creator: string;
+    creatorId: string;
+    creatorUrl: string;
+    thumbnail: string;
+    locations: [string];
+    description: string;
     url: string;
     embedUrl: string;
-    id: string;
     songs: [ScrapedPlaylistSong]
 }
 
@@ -30,6 +35,12 @@ export interface ScrapedAlbum{
     id: string;
     name: string;
     artist: string;
+    artistId: string;
+    artistUrl: string;
+    thumbnail: string;
+    locations: [string];
+    publishDate: string;
+    description: string;
     url: string;
     embedUrl: string;
     songs: [ScrapedPlaylistSong];
