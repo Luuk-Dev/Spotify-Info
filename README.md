@@ -58,9 +58,14 @@ The `scrapePlaylist` function returns a `Promise`, once this is fullfilled, it w
 
 | Property       | Description                                                                                   |
 |----------------|-----------------------------------------------------------------------------------------------|
-| name           | The name of the playlist.                                                                     |
+| name           | The name of the playlist on Spotify.                                                          |
 | id             | The id of the playlist on Spotify.                                                            |
-| creator        | The username of the creator of the playlist.                                                  |
+| creator        | The username of the creator of the playlist on Spotify.                                       |
+| creatorId      | The id of the creator of the playlist on Spotify.                                             |
+| creatorUrl     | The url of the creator of the playlist on Spotify.                                            |
+| thumbnail      | The image which is used as the thumbnail for the playlist on Spotify.                         |
+| locations      | An array of country codes of the countries where the playlist can be played on Spotify.       |
+| description    | The description of the playlist on Spotify.                                                   |
 | url            | The url of the playlist on Spotify.                                                           |
 | embedUrl       | The embed url of the playlist on Spotify.                                                     |
 | songs          | An array of the songs in the playlist, the songs make use of the `ScrapedPlaylistSong` class. |
@@ -79,6 +84,12 @@ The `scrapeAlbum` function returns a `Promise`, once this is fullfilled, it will
 | name           | The name of the album.                                                                        |
 | id             | The id of the album on Spotify.                                                               |
 | url            | The url of the album on Spotify.                                                              |
+| artist         | The username of the artist of the album on Spotify.                                           |
+| artistId       | The id of the artist of the album on Spotify.                                                 |
+| artistUrl      | The url of the artist of the album on Spotify.                                                |
+| thumbnail      | The image which is used as the thumbnail for the album on Spotify.                            |
+| locations      | An array of country codes of the countries where the album can be played on Spotify.          |
+| description    | The description of the album on Spotify.                                                      |
 | embedUrl       | The embed url of the album on Spotify.                                                        |
 | songs          | An array of the songs in the album, the songs make use of the `ScrapedPlaylistSong` class.    |
 
