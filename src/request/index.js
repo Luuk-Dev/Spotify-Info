@@ -37,10 +37,10 @@ function request(parsedURL, options = {}){
 
         const req = reqType.request({
             hostname: parsedURL.hostname,
-            path: parsedURL.pathname,
+            path: parsedURL.pathname + parsedURL.search,
             protocol: parsedURL.protocol,
             agent: agent,
-            method: options.method,
+            method: options.method || 'GET',
             headers: defaultHeaders,
             family: family
         }, res => {
@@ -63,6 +63,14 @@ function request(parsedURL, options = {}){
         req.on('error', err => {
             reject(err);
         });
+
+        if(typeof options.body === 'object'){
+            req.write(JSON.stringify(options.body));
+        } else if(typeof options.body === 'string' || typeof options.body === 'number'){
+            req.write(options.body);
+        } else if(typeof options.body === 'function'){
+            req.write(options.body());
+        }
 
         req.end();
     });
