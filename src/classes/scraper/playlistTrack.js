@@ -1,4 +1,4 @@
-class ScrapedPlaylistSong{
+class ScrapedPlaylistTrack{
     constructor(data){
         this.duration = data.length;
         this.name = data.name;
@@ -7,4 +7,4 @@ class ScrapedPlaylistSong{
     }
 }
 
-module.exports = ScrapedPlaylistSong;
+module.exports = ScrapedPlaylistTrack;
