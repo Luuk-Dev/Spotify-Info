@@ -15,11 +15,11 @@ class ScrapedAlbum{
 
         this.thumbnail = data.thumbnail ? data.thumbnail : null;
 
-        this.songs = [];
+        this.tracks = [];
 
-        for(var i = 0; i < data.songs.length; i++){
-            let song = data.songs[i];
-            this.songs.push(new ScrapedPlaylistTrack(song));
+        for(var i = 0; i < data.tracks.length; i++){
+            let song = data.tracks[i];
+            this.tracks.push(new ScrapedPlaylistTrack(song));
         }
     }
 }
