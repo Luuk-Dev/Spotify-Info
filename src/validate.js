@@ -13,24 +13,28 @@ function validateSpotifyURL(url){
     const parsed = validateURL(url);
     if(parsed === false) return false;
 
-    if(parsed.hostname.toLowerCase() !== "open.spotify.com") return false;
+    if(parsed.hostname.toLowerCase() !== "open.spotify.com" && parsed.hostname.toLowerCase() !== "api.spotify.com") return false;
 
     return true;
 }
 
-function validateSongURL(url){
+function validateID(id){
+    if(!/^([a-zA-Z0-9]{20,30})$/.test(id)) return false;
+    
+    return true;
+}
+
+function validateTrackURL(url){
     const spotifyURL = validateSpotifyURL(url);
     if(!spotifyURL) return false;
 
     const parsed = validateURL(url);
 
-    if(!parsed.pathname.startsWith("/track/") && !parsed.pathname.startsWith("/embed/track/")) return false;
+    if(!parsed.pathname.startsWith("/track/") && !parsed.pathname.startsWith("/embed/track/") && !parsed.pathname.startsWith("/v1/tracks/")) return false;
 
-    const songId = parsed.pathname.split('/track/')[1].split('/')[0];
+    const trackId = (parsed.pathname.split('/track/')[1] || parsed.pathname.split('/v1/tracks/')[1] || '').split('/')[0];
 
-    if(!/^([a-zA-Z0-9]{20,30})$/.test(songId)) return false;
-
-    return true;
+    return validateID(trackId);
 }
 
 function validateArtistURL(url){
@@ -39,13 +43,11 @@ function validateArtistURL(url){
     
     const parsed = validateURL(url);
 
-    if(!parsed.pathname.startsWith("/artist/") && !parsed.pathname.startsWith("/embed/artist/")) return false;
+    if(!parsed.pathname.startsWith("/artist/") && !parsed.pathname.startsWith("/embed/artist/") && !parsed.pathname.startsWith("/v1/artists/")) return false;
 
-    const artistId = parsed.pathname.split('/artist/')[1].split('/')[0];
+    const artistId = (parsed.pathname.split('/artist/')[1] || parsed.pathname.split('/v1/artists/')[1] || '').split('/')[0];
 
-    if(!/^([a-zA-Z0-9]{20,30})$/.test(artistId)) return false;
-
-    return true;
+    return validateID(artistId);
 }
 
 function validateAlbumURL(url){
@@ -54,13 +56,11 @@ function validateAlbumURL(url){
     
     const parsed = validateURL(url);
 
-    if(!parsed.pathname.startsWith("/album/") && !parsed.pathname.startsWith("/embed/album/")) return false;
+    if(!parsed.pathname.startsWith("/album/") && !parsed.pathname.startsWith("/embed/album/") && !parsed.pathname.startsWith("/v1/albums/")) return false;
 
-    const albumId = parsed.pathname.split('/album/')[1].split('/')[0];
+    const albumId = (parsed.pathname.split('/album/')[1] || parsed.pathname.split('/v1/albums/')[1] || '').split('/')[0];
 
-    if(!/^([a-zA-Z0-9]{20,30})$/.test(albumId)) return false;
-
-    return true;
+    return validateID(albumId);
 }
 
 function validatePlaylistURL(url){
@@ -69,13 +69,25 @@ function validatePlaylistURL(url){
     
     const parsed = validateURL(url);
 
-    if(!parsed.pathname.startsWith("/playlist/") && !parsed.pathname.startsWith("/embed/playlist/")) return false;
+    if(!parsed.pathname.startsWith("/playlist/") && !parsed.pathname.startsWith("/embed/playlist/") && !parsed.pathname.startsWith("/v1/playlists/")) return false;
 
-    const playlistId = parsed.pathname.split('/playlist/')[1].split('/')[0];
+    const playlistId = (parsed.pathname.split('/playlist/')[1] || parsed.pathname.split('/v1/playlists/')[1] || '').split('/')[0];
 
-    if(!/^([a-zA-Z0-9]{20,30})$/.test(playlistId)) return false;
-
-    return true;
+    return validateID(playlistId);
 }
 
-module.exports = {validateSpotifyURL, validateSongURL, validateArtistURL, validateAlbumURL, validatePlaylistURL};
+function getID(url){
+    const spotifyURL = validateSpotifyURL(url);
+    if(!spotifyURL) return false;
+
+    const parsed = validateURL(url);
+    let id = undefined;
+    if(validateTrackURL(url)) id = (parsed.pathname.split('/track/')[1] || parsed.pathname.split('/v1/tracks/')[1] || '').split('/')[0];
+    else if(validateArtistURL(url)) id = (parsed.pathname.split('/artist/')[1] || parsed.pathname.split('/v1/artists/')[1] || '').split('/')[0];
+    else if(validatePlaylistURL(url)) id = (parsed.pathname.split('/playlist/')[1] || parsed.pathname.split('/v1/playlists/')[1] || '').split('/')[0];
+    else if(validateAlbumURL(url)) id = (parsed.pathname.split('/album/')[1] || parsed.pathname.split('/v1/albums/')[1] || '').split('/')[0];
+
+    return id;
+}
+
+module.exports = {validateSpotifyURL, validateID, validateTrackURL, validateArtistURL, validateAlbumURL, validatePlaylistURL, getID};
