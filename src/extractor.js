@@ -1,44 +1,44 @@
 const { decodeHTMLEntities } = require('./functions.js');
 
 function playlistExtractor(res){
-    let songs = res.split('<li ');
-    songs.shift();
+    let tracks = res.split('<li ');
+    tracks.shift();
 
-    let playlistSongs = [];
+    let playlistTracks = [];
 
-    for(var i = 0; i < songs.length; i++){
-        var song = songs[i];
-        let songContent = song.split(">").slice(1).join(">").split("</li>")[0];
-        let songName = songContent.split("<h3")[1].split(">").slice(1).join(">").split("</h3>")[0];
-        let songArtist = songContent.split("<h4")[1].split(">").slice(1).join(">").split("</h4>")[0];
-        if(songArtist.indexOf('</span>') >= 0) songArtist = songArtist.split("</span>")[1];
-        let songLengthString = songContent.split("<div")[2].split(">").slice(1).join(">").split("</div>")[0];
-        let songLength = 0;
-        let splittedSongLength = songLengthString.split(":");
-        splittedSongLength.reverse();
-        for(var z = 0; z < splittedSongLength.length; z++){
-            var numb = parseInt(splittedSongLength[z]);
+    for(var i = 0; i < tracks.length; i++){
+        var track = tracks[i];
+        let trackContent = track.split(">").slice(1).join(">").split("</li>")[0];
+        let trackName = trackContent.split("<h3")[1].split(">").slice(1).join(">").split("</h3>")[0];
+        let trackArtist = trackContent.split("<h4")[1].split(">").slice(1).join(">").split("</h4>")[0];
+        if(trackArtist.indexOf('</span>') >= 0) trackArtist = trackArtist.split("</span>")[1];
+        let trackLengthString = trackContent.split("<div")[2].split(">").slice(1).join(">").split("</div>")[0];
+        let trackLength = 0;
+        let splittedTrackLength = trackLengthString.split(":");
+        splittedTrackLength.reverse();
+        for(var z = 0; z < splittedTrackLength.length; z++){
+            var numb = parseInt(splittedTrackLength[z]);
             if(z < 3){
-                songLength += numb * 60**z * 1000;
+                trackLength += numb * 60**z * 1000;
             } else if(z === 3){
-                songLength += numb * 24 * 60**2 * 1000;
+                trackLength += numb * 24 * 60**2 * 1000;
             }
         }
         try{
-            songName = decodeURI(songName);
+            trackName = decodeURI(trackName);
         } catch {}
         try{
-            songArtist = decodeURI(songArtist);
+            trackArtist = decodeURI(trackArtist);
         } catch {}
-        playlistSongs.push({
-            name: decodeHTMLEntities(songName),
-            artist: decodeHTMLEntities(songArtist),
-            lengthString: songLengthString,
-            length: songLength
+        playlistTracks.push({
+            name: decodeHTMLEntities(trackName),
+            artist: decodeHTMLEntities(trackArtist),
+            lengthString: trackLengthString,
+            length: trackLength
         });
     }
     
-    return playlistSongs;
+    return playlistTracks;
 }
 
 module.exports = {playlistExtractor};
