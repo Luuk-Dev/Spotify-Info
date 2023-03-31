@@ -1,15 +1,15 @@
 const { URL } = require('url');
 const { request } = require('./request/index.js');
-const { validateSongURL, validatePlaylistURL, validateAlbumURL } = require('./validate.js');
+const { validateTrackURL, validatePlaylistURL, validateAlbumURL } = require('./validate.js');
 const { playlistExtractor } = require('./extractor.js');
-const ScrapedSong = require('./classes/scraper/song.js');
+const ScrapedTrack = require('./classes/scraper/track.js');
 const ScrapedPlaylist = require('./classes/scraper/playlist.js');
 const { wait } = require('./functions.js');
 const Album = require('./classes/scraper/album.js');
 
-function scrapeSong(url){
+function scrapeTrack(url){
     return new Promise((resolve, reject) => {
-        if(!validateSongURL(url)) return reject('URL is not a Spotify song url');
+        if(!validateTrackURL(url)) return reject('URL is not a Spotify track url');
 
         var parsedURL = new URL(url);
 
@@ -20,7 +20,7 @@ function scrapeSong(url){
             method: 'GET'
         }).then(async res => {
             let data = res.split('<script type="application/ld+json">')[1];
-            if(!data) return reject('This song doesn\'t have any song info');
+            if(!data) return reject('This track doesn\'t have any track info');
             data = data.split('</script>')[0];
             let json = data;
             try{
@@ -33,7 +33,7 @@ function scrapeSong(url){
                     parsedURL = new URL(json.url);
                     let reqData = await request(parsedURL, {method: 'GET'});
                     let newData = reqData.split('<script type="application/ld+json">')[1];
-                    if(!newData) return reject('This song doesn\'t have any song info');
+                    if(!newData) return reject('This track doesn\'t have any track info');
                     newData = newData.split('</script>')[0];
                     json = newData;
                     json = JSON.parse(json);
@@ -53,14 +53,14 @@ function scrapeSong(url){
                 json['artist'] = splitEmbedData[4].split("</span>")[0];
             } catch {}
 
-            resolve(new ScrapedSong(json));
+            resolve(new ScrapedTrack(json));
         }).catch(reject);
     });
 }
 
 function scrapePlaylist(url){
     return new Promise((resolve, reject) => {
-        if(!validatePlaylistURL(url)) return reject('URL is not a Spotify song url');
+        if(!validatePlaylistURL(url)) return reject('URL is not a Spotify track url');
 
         var parsedURL = new URL(url);
 
@@ -75,7 +75,7 @@ function scrapePlaylist(url){
             obj['playlistName'] = res.split('<span>')[3].split("</span>")[0];
             obj['playlistCreator'] = res.split('<span>')[4].split("</span>")[0];
             obj['playlistId'] = playlistId;
-            obj['songs'] = playlistExtractor(res);
+            obj['tracks'] = playlistExtractor(res);
 
             try{
                 let parsedMainUrl = new URL("https://open.spotify.com/playlist/"+playlistId);
@@ -117,7 +117,7 @@ function scrapeAlbum(url){
             obj['albumName'] = res.split('<h1')[1].split('<a')[1].split('</a>')[0].split('>').slice(1).join('>');
             obj['albumId'] = albumId;
             obj['artist'] = res.split('<h2')[1].split("<a")[1].split('</a>')[0].split('>').slice(1).join('>');
-            obj['songs'] = playlistExtractor(res);
+            obj['tracks'] = playlistExtractor(res);
 
             try{
                 let parsedMainUrl = new URL("https://open.spotify.com/album/"+albumId);
@@ -143,4 +143,4 @@ function scrapeAlbum(url){
     });
 }
 
-module.exports = { scrapeSong, scrapePlaylist, scrapeAlbum };
+module.exports = { scrapeTrack, scrapePlaylist, scrapeAlbum };
