@@ -1,12 +1,12 @@
 {
   "name": "spotify-info",
-  "version": "1.0.7",
-  "description": "A library to receive information about Spotify songs and playlists without a token.",
+  "version": "1.0.9",
+  "description": "A library to receive information about Spotify songs, playlists, albums and artists and search for songs, playlists, albums and artists with and without the Spotify API.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["spotify", "song", "scrape", "information", "info"],
+  "keywords": ["spotify", "song", "scrape", "information", "info", "api", "playlist", "album", "artist", "search", "track", "tracks", "songs", "playlists", "albums", "artists", "token"],
   "author": "Luuk",
   "license": "MIT",
   "readme": "README.md",
