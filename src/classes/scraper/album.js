@@ -1,4 +1,4 @@
-const ScrapedPlaylistSong = require('./playlistSong.js');
+const ScrapedPlaylistTrack = require('./playlistTrack.js');
 
 class ScrapedAlbum{
     constructor(data){
@@ -19,7 +19,7 @@ class ScrapedAlbum{
 
         for(var i = 0; i < data.songs.length; i++){
             let song = data.songs[i];
-            this.songs.push(new ScrapedPlaylistSong(song));
+            this.songs.push(new ScrapedPlaylistTrack(song));
         }
     }
 }
