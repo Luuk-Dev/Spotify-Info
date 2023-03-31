@@ -1,4 +1,4 @@
-class ScrapedSong{
+class ScrapedTrack{
     constructor(data){
         this.name = data.name;
         this.artist = data.description.split(`Listen to ${this.name} on Spotify. `)[1].split(' ·')[0];
@@ -13,4 +13,4 @@ class ScrapedSong{
     }
 }
 
-module.exports = ScrapedSong;
+module.exports = ScrapedTrack;
