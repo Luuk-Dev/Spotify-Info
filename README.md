@@ -264,6 +264,7 @@ The base search result object has the following properties:
 | previousPage   | A function which returns a `Promise` that shows the previous page of results (only available when results isn't the first page, nullable). |
 | nextPage       | A function which returns a `Promise` that shows the next page of results (only available when results isn't the last page, nullable).      |
 | items          | An array with the results (result depends on the parent*)                                                                                  |
+
 \* _Based on the parent object name:_
 * Result items of songs will be the [`ApiTrack`](#get-song-information) class
 * Result items of playlists will be the [`SearchPlaylist`](#searchplaylist-class) class
