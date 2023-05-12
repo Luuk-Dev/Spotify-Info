@@ -11,6 +11,7 @@ A library to receive information about Spotify songs and playlists with and with
             <li><a href="#get-playlist-information">Get information about playlists</a></li>
             <li><a href="#get-album-information">Get information about albums</a></li>
             <li><a href="#get-artist-information">Get information about artists</a></li>
+            <li><a href="#get-user-information">Get information about users</a></li>
             <li><a href="#search">Search for songs, playlists, albums and artists</a></li>
         </ul>
         <li><a href="#get-information-without-the-spotify-api">Get information without the Spotify API</a>
@@ -162,6 +163,24 @@ The `getArtist` function returns a `Promise`, once this is fullfilled, it will r
 | copyrights     | An array of the copyrights that count for the album.                                                                                       |
 | genres         | An array of genres the album belongs to.                                                                                                   |
 | popularity     | A number between 0-100 with 100 being the most popular (nullable).                                                                         |
+
+### Get user information
+You can get information about a user by making use of the `getUser` function. The function has one argument. The argument is the url or id of the user. The url may be a spotify user url or a user api url.
+```js
+const spotifyInfo = require('spotify-info');
+
+spotifyInfo.getArtist('https://open.spotify.com/user/spotify').then(res => console.log(res.name)).catch(console.log);
+```
+The `getUser` function returns a `Promise`, once this is fullfilled, it will return the `ApiUser` class. The `ApiUser` class has the following properties:
+
+| Property       | Description                                                                                                                                |
+|----------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| username       | The username of the user.                                                                                                                  |
+| id             | The id of the user on Spotify.                                                                                                             |
+| uri            | The uri of the artist on Spotify.                                                                                                          |
+| url            | The url of the user on Spotify.                                                                                                            |
+| images         | An array of images of the profile image of the user [(base image object)](#base-image-object).                                             |
+| followers      | The amount of followers the user has.                                                                                                      |
 
 ### Search
 You can also search for songs, playlists, albums and artists by using the `search` function. The function has two arguments. The first argument is the query or api url where you want to search the song, playlist, album or artist with. The second argument is the options argument which is required in this case. The options in the options argument are:
