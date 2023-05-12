@@ -5,6 +5,7 @@ const getTrack = require('./src/api/getTrack.js');
 const getAlbum = require('./src/api/getAlbum.js');
 const getPlaylist = require('./src/api/getPlaylist.js');
 const getArtist = require('./src/api/getArtist.js');
+const getUser = require('./src/api/getUser.js');
 const search = require('./src/api/search.js');
 
-module.exports = {...validateFunctions, ...scrapeFunctions, setApiCredentials, getTrack, getAlbum, getPlaylist, getArtist, search};
+module.exports = {...validateFunctions, ...scrapeFunctions, setApiCredentials, getTrack, getAlbum, getPlaylist, getArtist, getUser, search};
