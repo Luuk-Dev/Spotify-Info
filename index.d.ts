@@ -314,37 +314,49 @@ export interface ApiArtist{
     popularity?: number;
 }
 
+export interface User{
+	username: string;
+	uri: string;
+	id: string;
+	followers: number;
+	images: [{
+		height?: number;
+		width?: number;
+		url: string;
+	}]
+}
+
 export interface SearchResult{
     tracks: {
         limit: number,
         offset: number,
         total: number,
-        nextPage: () => Promise<searchResult>,
-        previousPage: () => Promise<searchResult>,
+        nextPage: () => Promise<SearchResult>,
+        previousPage: () => Promise<SearchResult>,
         items: [ApiTrack]
     },
     albums: {
         limit: number,
         offset: number,
         total: number,
-        nextPage: () => Promise<searchResult>,
-        previousPage: () => Promise<searchResult>,
+        nextPage: () => Promise<SearchResult>,
+        previousPage: () => Promise<SearchResult>,
         items: [SearchAlbum]
     },
     playlists: {
         limit: number,
         offset: number,
         total: number,
-        nextPage: () => Promise<searchResult>,
-        previousPage: () => Promise<searchResult>,
+        nextPage: () => Promise<SearchResult>,
+        previousPage: () => Promise<SearchResult>,
         items: [SearchPlaylist]
     }
     artists: {
         limit: number,
         offset: number,
         total: number,
-        nextPage: () => Promise<searchResult>,
-        previousPage: () => Promise<searchResult>,
+        nextPage: () => Promise<SearchResult>,
+        previousPage: () => Promise<SearchResult>,
         items: [ApiArtist]
     }
 }
