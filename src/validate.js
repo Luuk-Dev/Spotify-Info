@@ -19,7 +19,7 @@ function validateSpotifyURL(url){
 }
 
 function validateID(id){
-    if(!/^([a-zA-Z0-9]{20,30})$/.test(id)) return false;
+    if(!/^([a-zA-Z0-9]{1,30})$/.test(id)) return false;
     
     return true;
 }
@@ -76,6 +76,19 @@ function validatePlaylistURL(url){
     return validateID(playlistId);
 }
 
+function validateUserURL(url){
+    const spotifyURL = validateSpotifyURL(url);
+    if(!spotifyURL) return false;
+    
+    const parsed = validateURL(url);
+
+    if(!parsed.pathname.startsWith("/user/") && !parsed.pathname.startsWith("/v1/users/")) return false;
+
+    const userId = (parsed.pathname.split('/user/')[1] || parsed.pathname.split('/v1/users/')[1] || '').split('/')[0];
+
+    return validateID(userId);
+}
+
 function getID(url){
     const spotifyURL = validateSpotifyURL(url);
     if(!spotifyURL) return false;
@@ -86,8 +99,9 @@ function getID(url){
     else if(validateArtistURL(url)) id = (parsed.pathname.split('/artist/')[1] || parsed.pathname.split('/v1/artists/')[1] || '').split('/')[0];
     else if(validatePlaylistURL(url)) id = (parsed.pathname.split('/playlist/')[1] || parsed.pathname.split('/v1/playlists/')[1] || '').split('/')[0];
     else if(validateAlbumURL(url)) id = (parsed.pathname.split('/album/')[1] || parsed.pathname.split('/v1/albums/')[1] || '').split('/')[0];
+	else if(validateUserURL(url)) id = (parsed.pathname.split('/user/')[1] || parsed.pathname.split('/v1/users/')[1] || '').split('/')[0];
 
     return id;
 }
 
-module.exports = {validateSpotifyURL, validateID, validateTrackURL, validateArtistURL, validateAlbumURL, validatePlaylistURL, getID};
+module.exports = {validateSpotifyURL, validateID, validateTrackURL, validateArtistURL, validateAlbumURL, validatePlaylistURL, validateUserURL, getID};
