@@ -12,7 +12,7 @@ function scrapeTrack(url){
         if(!validateTrackURL(url)) return reject('URL is not a Spotify track url');
 
         var parsedURL = new URL(url);
-        parsedURL.set('nd', '1');
+        parsedURL.searchParams.set('nd', '1');
 
         const trackId = parsedURL.pathname.split("/track/")[1].split("/")[0];
         var embedParsedURL = new URL("https://open.spotify.com/embed/track/"+trackId);
@@ -64,7 +64,7 @@ function scrapePlaylist(url){
         if(!validatePlaylistURL(url)) return reject('URL is not a Spotify track url');
 
         var parsedURL = new URL(url);
-        parsedURL.set('nd', '1');
+        parsedURL.searchParams.set('nd', '1');
 
         const playlistId = parsedURL.pathname.split("/playlist/")[1].split("/")[0];
         var embedParsedURL = new URL("https://open.spotify.com/embed/playlist/"+playlistId);
@@ -107,7 +107,7 @@ function scrapeAlbum(url){
         if(!validateAlbumURL(url)) return reject('URL is not a Spotify album url');
 
         var parsedURL = new URL(url);
-        parsedURL.set('nd', '1');
+        parsedURL.searchParams.set('nd', '1');
 
         const albumId = parsedURL.pathname.split("/album/")[1].split("/")[0];
         var embedParsedURL = new URL("https://open.spotify.com/embed/album/"+albumId);
