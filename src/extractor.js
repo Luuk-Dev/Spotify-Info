@@ -41,4 +41,31 @@ function playlistExtractor(res){
     return playlistTracks;
 }
 
-module.exports = {playlistExtractor};
+function playlistExtractorJson(res){
+    let playlistTracks = [];
+
+    for(var i = 0; i < res.length; i++){
+        let song = res[i];
+        let seconds = Math.round(song.duration / 1000);
+        let minutes = Math.floor(seconds / 60);
+        let hours = Math.floor(minutes / 60);
+
+        minutes = minutes - hours*60;
+        seconds = seconds - hours*60*60 - minutes*60;
+
+        let durationString = `${seconds}`;
+        if(minutes > 0) durationString = `${minutes}:${durationString}`;
+        if(hours > 0) durationString = `${hours}:${durationString}`;
+
+        playlistTracks.push({
+            name: song.title,
+            artist: song.subtitle,
+            lengthString: durationString,
+            length: song.duration
+        });
+    }
+
+    return playlistTracks;
+}
+
+module.exports = { playlistExtractor, playlistExtractorJson };
