@@ -1,7 +1,7 @@
 const { URL } = require('url');
 const { request } = require('./request/index.js');
 const { validateTrackURL, validatePlaylistURL, validateAlbumURL } = require('./validate.js');
-const { playlistExtractor } = require('./extractor.js');
+const { playlistExtractor, playlistExtractorJson } = require('./extractor.js');
 const ScrapedTrack = require('./classes/scraper/track.js');
 const ScrapedPlaylist = require('./classes/scraper/playlist.js');
 const { wait } = require('./functions.js');
@@ -49,10 +49,18 @@ function scrapeTrack(url){
             await wait(400);
             try{
                 let embedData = await request(embedParsedURL, {method: 'GET'});
-                let splitEmbedData = embedData.split(/<span>/);
-                json['name'] = splitEmbedData[3].split("</span>")[0];
-                json['artist'] = splitEmbedData[4].split("</span>")[0];
-            } catch {}
+                let jsonData = embedData.split('<script id="__NEXT_DATA__" type="application/json">')[1];
+                if(jsonData){
+                    jsonData = jsonData.split("</script>")[0];
+                    jsonData = JSON.parse(jsonData);
+                    json['name'] = jsonData?.props?.pageProps?.state?.data?.entity?.name;
+                    json['artist'] = (jsonData?.props?.pageProps?.state?.data?.entity?.artists || [])[0]?.name;
+                } else {
+                    let splitEmbedData = embedData.split(/<span>/);
+                    json['name'] = splitEmbedData[2].split("</span>")[0];
+                    json['artist'] = splitEmbedData[3].split("</span>")[0];
+                }
+            } catch(err) {}
 
             resolve(new ScrapedTrack(json));
         }).catch(reject);
@@ -74,10 +82,20 @@ function scrapePlaylist(url){
         }).then(async res => {
             let obj = {};
 
-            obj['playlistName'] = res.split('<span>')[3].split("</span>")[0];
-            obj['playlistCreator'] = res.split('<span>')[4].split("</span>")[0];
-            obj['playlistId'] = playlistId;
-            obj['tracks'] = playlistExtractor(res);
+            let jsonData = res.split('<script id="__NEXT_DATA__" type="application/json">')[1];
+            if(jsonData){
+                jsonData = jsonData.split("</script>")[0];
+                jsonData = JSON.parse(jsonData);
+                obj['playlistName'] = jsonData?.props?.pageProps?.state?.data?.entity?.name;
+                obj['playlistCreator'] = jsonData?.props?.pageProps?.state?.data?.entity?.subtitle;
+                obj['playlistId'] = jsonData?.props?.pageProps?.state?.data?.entity?.id;
+                obj['tracks'] = playlistExtractorJson(jsonData?.props?.pageProps?.state?.data?.entity?.trackList || []);
+            } else {
+                obj['playlistName'] = res.split('<span>')[2].split("</span>")[0];
+                obj['playlistCreator'] = res.split('<span>')[3].split("</span>")[0];
+                obj['playlistId'] = playlistId;
+                obj['tracks'] = playlistExtractor(res);
+            }
 
             try{
                 let parsedMainUrl = new URL("https://open.spotify.com/playlist/"+playlistId);
