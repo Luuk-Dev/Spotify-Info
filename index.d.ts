@@ -198,39 +198,20 @@ export interface ApiPlaylist{
     };
     public: boolean;
     description?: string;
-    tracks: [{
-        addedTimestamp: number,
-        name: string,
-        url: string,
-        id: string,
-        embedUrl: string,
-        release: string,
-        location: [string],
-        previewUrl: string | null,
-        explicit: boolean,
-        duration: number,
-        discNumber: number,
-        trackNumber: number,
-        uri: string,
-        artists: [{
+    tracks: {
+        items: [{
+            addedTimestamp: number,
             name: string,
             url: string,
             id: string,
-            uri: string
-        }],
-        album: {
-            type: string,
-            totalTracks: number,
-            url: string,
-            id: string,
-            images: [{
-                height?: number,
-                width?: number,
-                url: string
-            }],
-            name: string,
+            embedUrl: string,
             release: string,
-            locations: [string],
+            location: [string],
+            previewUrl: string | null,
+            explicit: boolean,
+            duration: number,
+            discNumber: number,
+            trackNumber: number,
             uri: string,
             artists: [{
                 name: string,
@@ -238,8 +219,34 @@ export interface ApiPlaylist{
                 id: string,
                 uri: string
             }],
-        }
-    }];
+            album: {
+                type: string,
+                totalTracks: number,
+                url: string,
+                id: string,
+                images: [{
+                    height?: number,
+                    width?: number,
+                    url: string
+                }],
+                name: string,
+                release: string,
+                locations: [string],
+                uri: string,
+                artists: [{
+                    name: string,
+                    url: string,
+                    id: string,
+                    uri: string
+                }],
+            }
+        }];
+        limit: number;
+        offset: number;
+        total: number;
+        nextPage: () => Promise<ApiPlaylist> | null;
+        previousPage: () => Promise<ApiPlaylist> | null;
+    }
 }
 
 export interface SearchPlaylist{
