@@ -111,7 +111,7 @@ The `getPlaylist` function returns a `Promise`, once this is fullfilled, it will
 | followers      | The amount of followers of the playlist.                                                                                                   |
 | previewUrl     | A url of a preview of the song (nullable).                                                                                                 |
 | locations      | An array of country codes of the countries where the song is available on Spotify.                                                         |
-| tracks         | An array of the songs in the playlist [(base track object)](#base-track-object).                                                           |
+| tracks         | An object with information about the tracks of the playlist [(base tracks information)](#base-tracks-information).                         |
 
 ### Get album information
 You can get information about an album by making use of the `getAlbum` function. The function has two arguments. The first argument is the url or id of the album. The url may be an embed url, album url or an api url. The second argument is the options argument which is optional. The options in the options argument are:
@@ -251,6 +251,16 @@ The base image object has the following properties:
 | height         | The height of the image (nullable).                                                                                                        |
 | width          | The width of the image (nullable).                                                                                                         |
 | url            | The url of the image.                                                                                                                      |
+
+### Base tracks information
+| Property      | Description                                                                                                                                             |
+|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| tracks        | An array with the tracks of the playlist [(base track object)](#base-track-object).                                                                     |
+| offset        | The offset used to find the tracks of the playlist.                                                                                                     |
+| limit         | The limit set to find the tracks of the playlist and the amount of tracks which have been returned.                                                     |
+| total         | The total amount of tracks available for the playlist.                                                                                                  |
+| nextPage      | A function which returns a Promise and resolves a new [ApiPlaylist](#get-playlist-information) class with a new page of tracks.                         |
+| previousPage  | A function which returns a Promise and resolves a new [ApiPlaylist](#get-playlist-information) class with the previous page of tracks (nullable).       |
 
 ### Base track object
 The base track object has the following properties:
