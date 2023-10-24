@@ -1,6 +1,6 @@
 {
   "name": "spotify-info",
-  "version": "1.1.6",
+  "version": "1.1.8",
   "description": "A library to receive information about Spotify songs, playlists, albums and artists and search for songs, playlists, albums and artists with and without the Spotify API.",
   "main": "index.js",
   "scripts": {
