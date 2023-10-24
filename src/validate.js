@@ -30,7 +30,8 @@ function validateTrackURL(url){
 
     const parsed = validateURL(url);
 
-    if(!parsed.pathname.startsWith("/track/") && !parsed.pathname.startsWith("/embed/track/") && !parsed.pathname.startsWith("/v1/tracks/")) return false;
+    let reg = new RegExp('/(.+)/(track|embed/track|v1/tracks)/([a-zA-Z0-9]{10,30})');
+    if(!reg.test(parsed.pathname)) return false;
 
     const trackId = (parsed.pathname.split('/track/')[1] || parsed.pathname.split('/v1/tracks/')[1] || '').split('/')[0];
 
@@ -43,7 +44,8 @@ function validateArtistURL(url){
     
     const parsed = validateURL(url);
 
-    if(!parsed.pathname.startsWith("/artist/") && !parsed.pathname.startsWith("/embed/artist/") && !parsed.pathname.startsWith("/v1/artists/")) return false;
+    let reg = new RegExp('/(.+)/(artist|embed/artist|v1/artists)/([a-zA-Z0-9]{10,30})');
+    if(!reg.test(parsed.pathname)) return false;
 
     const artistId = (parsed.pathname.split('/artist/')[1] || parsed.pathname.split('/v1/artists/')[1] || '').split('/')[0];
 
@@ -56,7 +58,8 @@ function validateAlbumURL(url){
     
     const parsed = validateURL(url);
 
-    if(!parsed.pathname.startsWith("/album/") && !parsed.pathname.startsWith("/embed/album/") && !parsed.pathname.startsWith("/v1/albums/")) return false;
+    let reg = new RegExp('/(.+)/(album|embed/album|v1/albums)/([a-zA-Z0-9]{10,30})');
+    if(!reg.test(parsed.pathname)) return false;
 
     const albumId = (parsed.pathname.split('/album/')[1] || parsed.pathname.split('/v1/albums/')[1] || '').split('/')[0];
 
@@ -69,7 +72,8 @@ function validatePlaylistURL(url){
     
     const parsed = validateURL(url);
 
-    if(!parsed.pathname.startsWith("/playlist/") && !parsed.pathname.startsWith("/embed/playlist/") && !parsed.pathname.startsWith("/v1/playlists/")) return false;
+    let reg = new RegExp('/(.+)/(playlist|embed/playlist|v1/playlists)/([a-zA-Z0-9]{10,30})');
+    if(!reg.test(parsed.pathname)) return false;
 
     const playlistId = (parsed.pathname.split('/playlist/')[1] || parsed.pathname.split('/v1/playlists/')[1] || '').split('/')[0];
 
@@ -82,7 +86,8 @@ function validateUserURL(url){
     
     const parsed = validateURL(url);
 
-    if(!parsed.pathname.startsWith("/user/") && !parsed.pathname.startsWith("/v1/users/")) return false;
+    let reg = new RegExp('/(.+)/(user|v1/users)/([a-zA-Z0-9]{10,30})');
+    if(!reg.test(parsed.pathname)) return false;
 
     const userId = (parsed.pathname.split('/user/')[1] || parsed.pathname.split('/v1/users/')[1] || '').split('/')[0];
 
